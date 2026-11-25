@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pocket-money review · 2026-11-22 to 2026-11-24</title>
+<style>
+:root { color-scheme: light; font-family: system-ui, sans-serif; }
+body { margin: 0; padding: 2rem; color: #172033; background: #f5f7fb; }
+main { max-width: 960px; margin: auto; background: white; padding: 1.5rem; border-radius: 16px; box-shadow: 0 8px 30px #17203318; }
+.meta { color: #586174; margin: .25rem 0 1.2rem; }
+.controls { display: flex; gap: .5rem; margin-bottom: 1rem; }
+button { border: 1px solid #c7cfdf; background: white; color: #172033; border-radius: 999px; padding: .45rem .9rem; cursor: pointer; }
+button.active, button:hover { background: #315efb; color: white; border-color: #315efb; }
+#chart { min-height: 280px; display: grid; place-items: center; }
+.pie { width: 250px; height: 250px; border-radius: 50%; box-shadow: inset 0 0 0 1px #0001; }
+.bars { width: 100%; display: grid; gap: .75rem; }
+.bar-row { display: grid; grid-template-columns: minmax(7rem, 12rem) 1fr 6rem; align-items: center; gap: .75rem; }
+.bar-track { height: 1.2rem; background: #edf0f7; border-radius: 999px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: inherit; transition: width .2s ease; }
+.line-chart { width: 100%; overflow-x: auto; }
+.line-chart svg { width: 100%; min-width: 620px; height: 360px; display: block; }
+.line-grid { stroke: #e5e9f2; stroke-width: 1; }
+.line-axis { stroke: #9aa5b8; stroke-width: 1.2; }
+.line-path { fill: none; stroke: #315efb; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.line-point { fill: white; stroke: #315efb; stroke-width: 3; }
+.line-label { fill: #586174; font-size: 12px; }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: .45rem; margin-top: 1.25rem; }
+.legend-item { display: flex; align-items: center; gap: .45rem; color: #3e4758; }
+.swatch { width: .75rem; height: .75rem; border-radius: 3px; }
+footer { color: #697386; font-size: .85rem; margin-top: 1.5rem; }
+@media (max-width: 640px) { body { padding: .75rem; } .bar-row { grid-template-columns: 6rem 1fr 4rem; gap: .4rem; font-size: .9rem; } }
+</style>
+</head>
+<body>
+<main>
+<h1>Pocket-money review · 2026-11-22 to 2026-11-24</h1>
+<p class="meta" id="meta"></p>
+<div class="controls" id="controls" aria-label="Chart type"></div>
+<section id="chart" aria-live="polite"></section>
+<section class="legend" id="legend"></section>
+<footer>Chart type: <code id="chart-type"></code> · Snapshot: <code id="snapshot"></code></footer>
+<script id="chart-data" type="application/json">{"type":"category-summary","review_period":{"start":"2026-11-22","end":"2026-11-24"},"currency":"CNY","total_spending":"115","categories":[{"name":"餐饮/零食","amount":"87","percentage":"75.65","confirmation_state":"confirmed"},{"name":"娱乐/游戏服务","amount":"28","percentage":"24.35","confirmation_state":"confirmed"}],"series":[],"source_snapshot_id":"review-2026-11-22-2026-11-24","confirmation_state":"confirmed","selected_chart_type":"pie"}</script>
+<script>
+(() => {
+  const data = JSON.parse(document.getElementById('chart-data').textContent);
+  const chart = document.getElementById('chart');
+  const legend = document.getElementById('legend');
+  const controls = document.getElementById('controls');
+  const colors = ['#315efb', '#f08a4b', '#36a269', '#9b5de5', '#e0b43b', '#e05276', '#4aa3df', '#6d798f'];
+  const total = data.total_spending === null ? null : Number(data.total_spending);
+  const categories = data.categories.map((item, index) => ({
+    ...item,
+    number: Number(item.amount),
+    color: colors[index % colors.length]
+  }));
+  const series = data.series.map(item => ({ ...item, number: Number(item.value) }));
+
+  const metaText = data.type === 'time-series'
+    ? `${data.review_period.start} to ${data.review_period.end} · ${data.currency} · ${series.length} points`
+    : `${data.review_period.start} to ${data.review_period.end} · ${data.currency} · total ${data.total_spending}`;
+  document.getElementById('meta').textContent = metaText;
+  document.getElementById('chart-type').textContent = data.selected_chart_type;
+  document.getElementById('snapshot').textContent = data.source_snapshot_id;
+
+  function renderLegend() {
+    legend.replaceChildren();
+    if (data.type === 'time-series') {
+      series.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'legend-item';
+        const swatch = document.createElement('span');
+        swatch.className = 'swatch';
+        swatch.style.background = '#315efb';
+        const label = document.createElement('span');
+        label.textContent = `${item.label}: ${item.value} ${data.currency}`;
+        row.append(swatch, label);
+        legend.append(row);
+      });
+      return;
+    }
+    categories.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'legend-item';
+      const swatch = document.createElement('span');
+      swatch.className = 'swatch';
+      swatch.style.background = item.color;
+      const label = document.createElement('span');
+      label.textContent = `${item.name}: ${item.amount} (${item.percentage}%)`;
+      row.append(swatch, label);
+      legend.append(row);
+    });
+  }
+
+  function renderPie() {
+    const stops = [];
+    let cursor = 0;
+    categories.forEach(item => {
+      const share = total ? item.number / total * 100 : 0;
+      stops.push(`${item.color} ${cursor}% ${cursor + share}%`);
+      cursor += share;
+    });
+    chart.replaceChildren();
+    const pie = document.createElement('div');
+    pie.className = 'pie';
+    pie.setAttribute('role', 'img');
+    pie.setAttribute('aria-label', 'Category spending pie chart');
+    pie.style.background = `conic-gradient(${stops.join(', ')})`;
+    chart.append(pie);
+  }
+
+  function renderBars() {
+    chart.replaceChildren();
+    const bars = document.createElement('div');
+    bars.className = 'bars';
+    const max = Math.max(...categories.map(item => item.number), 0);
+    categories.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      const name = document.createElement('span');
+      name.textContent = item.name;
+      const track = document.createElement('div');
+      track.className = 'bar-track';
+      const fill = document.createElement('div');
+      fill.className = 'bar-fill';
+      fill.style.background = item.color;
+      fill.style.width = `${max ? item.number / max * 100 : 0}%`;
+      fill.title = `${item.name}: ${item.amount}`;
+      track.append(fill);
+      const amount = document.createElement('strong');
+      amount.textContent = `${item.amount} ${data.currency}`;
+      row.append(name, track, amount);
+      bars.append(row);
+    });
+    chart.append(bars);
+  }
+
+  function svgText(svg, value, x, y, anchor = 'middle') {
+    const node = document.createElementNS('http' + '://www.w3.org/2000/svg', 'text');
+    node.setAttribute('x', x);
+    node.setAttribute('y', y);
+    node.setAttribute('text-anchor', anchor);
+    node.setAttribute('class', 'line-label');
+    node.textContent = value;
+    svg.append(node);
+  }
+
+  function renderLine() {
+    chart.replaceChildren();
+    const wrapper = document.createElement('div');
+    wrapper.className = 'line-chart';
+    const svgNamespace = 'http' + '://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNamespace, 'svg');
+    svg.setAttribute('viewBox', '0 0 800 360');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'Spending trend line chart');
+    const width = 800;
+    const height = 360;
+    const left = 58;
+    const right = 24;
+    const top = 24;
+    const bottom = 62;
+    const values = series.map(item => item.number);
+    const min = Math.min(...values, 0);
+    const max = Math.max(...values, 1);
+    const range = max - min || 1;
+    const x = index => series.length === 1
+      ? (width + left - right) / 2
+      : left + index * (width - left - right) / (series.length - 1);
+    const y = value => height - bottom - (value - min) / range * (height - top - bottom);
+
+    for (let index = 0; index <= 4; index += 1) {
+      const value = min + range * index / 4;
+      const yPosition = y(value);
+      const grid = document.createElementNS(svgNamespace, 'line');
+      grid.setAttribute('x1', left);
+      grid.setAttribute('x2', width - right);
+      grid.setAttribute('y1', yPosition);
+      grid.setAttribute('y2', yPosition);
+      grid.setAttribute('class', 'line-grid');
+      svg.append(grid);
+      svgText(svg, value.toFixed(2), left - 8, yPosition + 4, 'end');
+    }
+
+    const axis = document.createElementNS(svgNamespace, 'line');
+    axis.setAttribute('x1', left);
+    axis.setAttribute('x2', width - right);
+    axis.setAttribute('y1', height - bottom);
+    axis.setAttribute('y2', height - bottom);
+    axis.setAttribute('class', 'line-axis');
+    svg.append(axis);
+
+    const points = series.map((item, index) => `${x(index)},${y(item.number)}`).join(' ');
+    const path = document.createElementNS(svgNamespace, 'polyline');
+    path.setAttribute('points', points);
+    path.setAttribute('class', 'line-path');
+    svg.append(path);
+
+    series.forEach((item, index) => {
+      const point = document.createElementNS(svgNamespace, 'circle');
+      point.setAttribute('cx', x(index));
+      point.setAttribute('cy', y(item.number));
+      point.setAttribute('r', '5');
+      point.setAttribute('class', 'line-point');
+      const title = document.createElementNS(svgNamespace, 'title');
+      title.textContent = `${item.label}: ${item.value} ${data.currency}`;
+      point.append(title);
+      svg.append(point);
+      svgText(svg, item.label, x(index), height - bottom + 28);
+    });
+    wrapper.append(svg);
+    chart.append(wrapper);
+  }
+
+  function select(mode) {
+    document.querySelectorAll('[data-mode]').forEach(button => {
+      button.classList.toggle('active', button.dataset.mode === mode);
+    });
+    if (mode === 'line') renderLine();
+    else if (mode === 'pie') renderPie();
+    else renderBars();
+    renderLegend();
+  }
+
+  if (data.selected_chart_type === 'line') {
+    controls.hidden = true;
+    select('line');
+  } else {
+    ['pie', 'bar'].forEach(mode => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.mode = mode;
+      button.textContent = mode === 'pie' ? 'Pie' : 'Bar';
+      button.addEventListener('click', () => select(mode));
+      controls.append(button);
+    });
+    select(data.selected_chart_type);
+  }
+})();
+</script>
+</main>
+</body>
+</html>

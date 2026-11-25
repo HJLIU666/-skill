@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>零花钱复盘报告 · 2026/11/22–2026/11/24</title>
+  <style>
+    :root { color-scheme: light; --ink:#172033; --muted:#66728a; --line:#dfe5ef; --blue:#315efb; --cyan:#14b8c4; --pink:#e34b9b; --yellow:#b8750a; --soft:#f5f7fb; --green:#16794c; }
+    * { box-sizing: border-box; }
+    body { margin:0; color:var(--ink); background:linear-gradient(135deg,#eef5ff,#fff8ef); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.65; }
+    main { width:min(1080px,calc(100% - 32px)); margin:0 auto; padding:48px 0 70px; }
+    header { padding:32px; border-radius:22px; color:white; background:linear-gradient(130deg,#172c63,#29154d 65%,#591344); box-shadow:0 18px 50px #1b174b33; }
+    .eyebrow { color:#74f7ff; font:700 12px ui-monospace,monospace; letter-spacing:.14em; text-transform:uppercase; }
+    h1 { margin:12px 0 4px; font-size:clamp(34px,6vw,66px); line-height:1.03; letter-spacing:-.05em; }
+    header p { margin:12px 0 0; color:#d9e4ff; font-size:18px; }
+    h2 { margin:34px 0 14px; font-size:27px; letter-spacing:-.03em; }
+    .cards { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-top:18px; }
+    .card, .panel { background:#ffffffde; border:1px solid var(--line); border-radius:16px; box-shadow:0 12px 35px #20345c12; }
+    .card { padding:18px; min-height:112px; }
+    .label { color:var(--muted); font-size:12px; }
+    .value { margin-top:8px; font-size:31px; line-height:1; font-weight:850; letter-spacing:-.05em; }
+    .value.blue { color:var(--blue); } .value.pink { color:var(--pink); } .value.green { color:var(--green); } .value.yellow { color:var(--yellow); }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:stretch; }
+    .panel { padding:24px; }
+    .panel h3 { margin-top:0; }
+    .chart-area { display:grid; grid-template-columns:260px 1fr; gap:28px; align-items:center; }
+    .donut { width:230px; height:230px; margin:auto; border-radius:50%; background:conic-gradient(var(--blue) 0 75.65%,var(--pink) 75.65% 100%); position:relative; box-shadow:0 0 0 10px #315efb12,0 12px 30px #17203322; }
+    .donut::after { content:"115 元"; position:absolute; inset:53px; display:grid; place-items:center; border-radius:50%; background:#fff; color:var(--ink); font-size:24px; font-weight:800; }
+    .legend { display:grid; gap:14px; }
+    .legend-row { display:grid; grid-template-columns:14px 1fr auto; gap:9px; align-items:center; }
+    .swatch { width:14px; height:14px; border-radius:4px; }
+    .legend-row strong { font-size:15px; }
+    .legend-row span:last-child { color:var(--muted); font-size:14px; }
+    .bar { margin-top:15px; }
+    .bar-head { display:flex; justify-content:space-between; gap:10px; font-size:14px; }
+    .track { height:12px; margin-top:6px; border-radius:99px; background:#e9edf5; overflow:hidden; }
+    .fill { height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--blue),#5ce3e9); }
+    .fill.pink { background:linear-gradient(90deg,var(--pink),#a95fe8); }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th,td { padding:11px 9px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+    tr:last-child td { border-bottom:0; }
+    .callout { padding:17px 19px; border-left:4px solid var(--pink); border-radius:9px; background:#fff0f8; color:#61294d; }
+    .green-note { padding:17px 19px; border-left:4px solid var(--green); border-radius:9px; background:#eaf8f0; color:#205d42; }
+    ol { padding-left:22px; margin-bottom:0; }
+    li { margin:9px 0; }
+    .muted { color:var(--muted); }
+    .status { display:flex; gap:10px; align-items:flex-start; padding:14px 16px; border:1px solid #bee8d0; background:#edfbf2; color:#176b46; border-radius:12px; }
+    .button { display:inline-flex; margin-top:16px; padding:10px 14px; border-radius:9px; text-decoration:none; color:white; background:var(--blue); box-shadow:0 7px 18px #315efb33; }
+    footer { margin-top:34px; color:var(--muted); font-size:13px; }
+    @media (max-width:820px) { .cards { grid-template-columns:repeat(2,minmax(0,1fr)); } .grid { grid-template-columns:1fr; } }
+    @media (max-width:560px) { main { width:calc(100% - 22px); padding-top:18px; } header { padding:23px; } .cards { grid-template-columns:1fr 1fr; } .chart-area { grid-template-columns:1fr; } .donut { width:205px; height:205px; } }
+    @media print { body { background:white; } main { width:100%; padding:0; } header { box-shadow:none; } .button { display:none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">POCKET-MONEY-REVIEW · FINAL REPORT</div>
+      <h1>零花钱复盘报告</h1>
+      <p>2026/11/22～2026/11/24 · 目标：在 2026/11/30 前为 GTA6 预留 200 元</p>
+    </header>
+
+    <section class="cards" aria-label="总览">
+      <div class="card"><div class="label">零花钱收入</div><div class="value blue">600 元</div></div>
+      <div class="card"><div class="label">本期总支出</div><div class="value pink">115 元</div></div>
+      <div class="card"><div class="label">收入结余</div><div class="value green">485 元</div></div>
+      <div class="card"><div class="label">超过三天上限</div><div class="value yellow">65 元</div></div>
+    </section>
+
+    <h2>分类占比</h2>
+    <section class="panel chart-area">
+      <div class="donut" aria-label="餐饮零食占75.65%，娱乐游戏服务占24.35%"></div>
+      <div class="legend">
+        <div class="legend-row"><span class="swatch" style="background:var(--blue)"></span><strong>餐饮/零食</strong><span>87 元 · 75.65%</span></div>
+        <div class="legend-row"><span class="swatch" style="background:var(--pink)"></span><strong>娱乐/游戏服务</strong><span>28 元 · 24.35%</span></div>
+        <p class="muted">本次只有两个确认分类，因此自动选择饼图。图表只使用已确认的分类汇总，不包含逐笔消费描述。</p>
+        <a class="button" href="../charts/review-2026-11-22-2026-11-24-final.html">打开独立离线图表</a>
+      </div>
+    </section>
+
+    <h2>支出明细与分类</h2>
+    <section class="panel">
+      <table>
+        <thead><tr><th>原始记录</th><th>分类</th><th>金额</th></tr></thead>
+        <tbody>
+          <tr><td>可乐+巧克力</td><td>餐饮/零食</td><td>12 元</td></tr>
+          <tr><td>三角洲代打</td><td>娱乐/游戏服务</td><td>28 元</td></tr>
+          <tr><td>奶茶</td><td>餐饮/零食</td><td>20 元</td></tr>
+          <tr><td>冰淇凌</td><td>餐饮/零食</td><td>19 元</td></tr>
+          <tr><td>之士薯条</td><td>餐饮/零食</td><td>36 元</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <h2>问题定位</h2>
+    <section class="grid">
+      <div class="panel">
+        <h3>主要支出来源</h3>
+        <p>餐饮/零食共 4 笔，合计 87 元，占总支出的 75.65%，平均每笔 21.75 元。</p>
+        <div class="bar"><div class="bar-head"><span>餐饮/零食</span><strong>87 元</strong></div><div class="track"><div class="fill" style="width:75.65%"></div></div></div>
+        <div class="bar"><div class="bar-head"><span>娱乐/游戏服务</span><strong>28 元</strong></div><div class="track"><div class="fill pink" style="width:24.35%"></div></div></div>
+      </div>
+      <div class="panel">
+        <h3>预算偏差</h3>
+        <div class="callout">三天目标是 50 元，实际支出 115 元，超出 65 元。实际支出是目标上限的 2.3 倍。</div>
+        <p class="muted">收入本身没有被花光，但当前消费节奏没有达到“三天只花 50 元”的目标。</p>
+      </div>
+    </section>
+
+    <h2>GTA6 目标计划</h2>
+    <section class="panel">
+      <table>
+        <thead><tr><th>时间段</th><th>支出上限</th><th>目标预留</th><th>执行重点</th></tr></thead>
+        <tbody>
+          <tr><td>2026/11/25～2026/11/27</td><td>50 元</td><td>100 元</td><td>餐饮/零食不超过 30 元，娱乐/游戏服务不超过 20 元。</td></tr>
+          <tr><td>2026/11/28～2026/11/30</td><td>50 元</td><td>100 元</td><td>保持相同上限，累计预留达到 200 元。</td></tr>
+          <tr><td><strong>合计</strong></td><td><strong>100 元</strong></td><td><strong>200 元</strong></td><td><strong>目标日期前完成预留。</strong></td></tr>
+        </tbody>
+      </table>
+      <p class="muted">当前没有提供已经存下的 GTA6 专用金额，因此计划按已有专用储蓄为 0 元展示。如果已经存过一部分，应从后续预留目标中扣除。</p>
+    </section>
+
+    <h2>三条已接受行动</h2>
+    <section class="grid">
+      <div class="panel"><h3>01 · 先预留目标金额</h3><p>在 11 月 25 日和 11 月 28 日分别记录 100 元 GTA6 目标预留。核验方式是两个周期结束时累计达到 200 元。</p></div>
+      <div class="panel"><h3>02 · 控制餐饮/零食</h3><p>每三天不超过 30 元。每次购买前检查本周期累计金额，周期结束时确认没有超过上限。</p></div>
+      <div class="panel"><h3>03 · 控制娱乐服务</h3><p>每三天不超过 20 元。产生消费计划时先查看剩余额度，周期结束时核对类别金额。</p></div>
+    </section>
+
+    <h2>状态</h2>
+    <div class="status"><strong>✓</strong><div><strong>报告和预算草案已确认</strong><div>本次图表已生成，历史写入未重复执行，因为本地已经存在相同周期的汇总。</div></div></div>
+
+    <footer>本页面为自包含离线复盘网页，不依赖外部网络资源。报告数字来自本次已确认的复盘数据。</footer>
+  </main>
+</body>
+</html>
